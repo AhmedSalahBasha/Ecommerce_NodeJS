@@ -1,7 +1,7 @@
 module.exports = {
 
     database: 'mongodb://admin:admin@ds141118.mlab.com:41118/ecommerce',
-    port: 3000,
+    port: process.env.PORT || 5000,
     secretKey: "Salah!@#$%",
 
     facebook: {
