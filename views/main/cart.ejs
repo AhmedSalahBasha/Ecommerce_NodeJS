@@ -1,0 +1,173 @@
+<% layout('layout') %>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-10 col-md-offset-1">
+        <% if(message.length > 0) {%>
+      <div id="login-alert" class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p><span><%= message %></span></p>
+
+      </div>
+        <% } %>
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th class="text-center">Price</th>
+          <th class="text-center">Total</th>
+          <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for(var i = 0; i < foundCart.items.length; i++) { %>
+        <tr>
+          <td class="col-sm-8 col-md-6">
+            <div class="media">
+              <a class="thumbnail pull-left" href="/product/<%= foundCart.items[i].item._id %>"> <img class="media-object img-rounded" src="<%= foundCart.items[i].item.image %>" style="width: 100px;"> </a>
+              <div class="media-body">
+                <h4 class="media-heading"><a href="/product/<%= foundCart.items[i].item._id %>"><%= foundCart.items[i].item.name %></a></h4>
+                <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
+              </div>
+            </div></td>
+          <td class="col-sm-1 col-md-1" style="text-align: center">
+            <strong><%= foundCart.items[i].quantity %></strong>
+          </td>
+          <td class="col-sm-1 col-md-1 text-center"><strong>$<%= foundCart.items[i].item.price %></strong></td>
+          <td class="col-sm-1 col-md-1 text-center"><strong>$<%= foundCart.items[i].price %></strong></td>
+          <td class="col-sm-1 col-md-1">
+            <form action="/remove" method="post">
+              <input type="hidden" name="item" value="<%= foundCart.items[i]._id %>">
+              <input type="hidden" name="price" value="<%= foundCart.items[i].price %>">
+              <button type="submit" class="btn btn-danger">
+                <span class="glyphicon glyphicon-remove"></span> Remove
+              </button>
+            </form>
+          </td>
+        </tr>
+        <% } %>
+        <tr>
+          <td>   </td>
+          <td>   </td>
+          <td>   </td>
+          <td><h3>Total</h3></td>
+          <td class="text-right"><h3><strong>$<%= foundCart.total %></strong></h3></td>
+        </tr>
+        <tr>
+          <td>   </td>
+          <td>   </td>
+          <td>   </td>
+          <td>
+            <a href="/" class="btn btn-info btn-lg">
+              <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+            </a></td>
+          <td>
+            <div class="form-group">
+              <input type="hidden" value="<%= foundCart.total %>">
+              <button type="submit" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">
+                Checkout <span class="glyphicon glyphicon-play"></span>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <!-- Stripe Payment Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Pay With Stripe</h4>
+            </div>
+            <div class="modal-body">
+              <!-- CREDIT CARD FORM STARTS HERE -->
+              <div class="panel panel-default credit-card-box">
+                <div class="panel-heading display-table" >
+                  <div class="row display-tr" >
+                    <h3 class="panel-title display-td" >Payment Details</h3>
+                    <div class="display-td" >
+                      <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <form role="form" id="payment-form" method="POST" action="/payment">
+                    <input type="hidden" name="stripeMoney" value="<%= foundCart.total %>">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="form-group">
+                          <label for="cardNumber">CARD NUMBER</label>
+                          <div class="input-group">
+                            <input
+                                    type="tel"
+                                    class="form-control"
+                                    name="cardNumber"
+                                    placeholder="Valid Card Number"
+                                    autocomplete="cc-number"
+                                    required autofocus
+                            />
+                            <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-7 col-md-7">
+                        <div class="form-group">
+                          <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                          <input
+                                  type="tel"
+                                  class="form-control"
+                                  name="cardExpiry"
+                                  placeholder="MM / YY"
+                                  autocomplete="cc-exp"
+                                  required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xs-5 col-md-5 pull-right">
+                        <div class="form-group">
+                          <label for="cardCVC">CV CODE</label>
+                          <input
+                                  type="password"
+                                  class="form-control"
+                                  name="cardCVC"
+                                  placeholder="CVC"
+                                  autocomplete="cc-csc"
+                                  required
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <button class="subscribe btn btn-success btn-lg btn-block" type="submit">Pay  $(<%= foundCart.total %>)</button>
+                      </div>
+                    </div>
+                    <div class="row" style="display:none;">
+                      <div class="col-xs-12">
+                        <p class="payment-errors"></p>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!-- CREDIT CARD FORM ENDS HERE -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-2 col-md-offset-6">
+      <div class="text-center" id="loading"></div>
+    </div>
+  </div>
+</div>

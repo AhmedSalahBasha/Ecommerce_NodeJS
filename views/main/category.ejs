@@ -1,0 +1,28 @@
+<% layout('layout') %>
+
+
+<div class="container">
+  <div id="products" class="row list-group">
+      <% for (var i = 0; i < products.length; i++) { %>
+    <div class="item  col-xs-4 col-lg-4">
+      <div class="thumbnail">
+        <a href="/product/<%= products[i]._id %>">
+          <img class="group list-group-image img-rounded" src="<%= products[i].image %>" alt="" />
+        </a>
+        <div class="caption">
+          <h4 class="group inner list-group-item-heading">
+            <a href="/product/<%= products[i]._id %>"><%= products[i].name %></a></h4>
+          <p class="group inner list-group-item-text">
+              <%= products[i].description.substring(0, 140) %></p>
+          <div class="row">
+            <div class="col-xs-12 col-md-6">
+              <p class="lead">
+                $<%= products[i].price %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <% } %>
+  </div>
+</div>

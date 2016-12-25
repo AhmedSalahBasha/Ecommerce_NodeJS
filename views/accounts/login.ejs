@@ -1,0 +1,51 @@
+<% layout('layout') %>
+
+<div id="loginbox" style="margin-top:50px;" class="row mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+  <div class="panel panel-info" >
+    <div class="panel-heading">
+      <div class="panel-title">Login</div>
+    </div>
+    <div style="padding-top:30px" class="panel-body" >
+        <% if(message.length > 0) {%>
+      <div id="login-alert" class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p>Error: <span><%= message %></span></p>
+
+      </div>
+        <% } %>
+      <form id="loginform" class="form-horizontal" method="post">
+        <div style="margin-bottom: 25px" class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input id="login-username" required type="email" class="form-control" name="email" placeholder="Email">
+        </div>
+
+        <div style="margin-bottom: 25px" class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+          <input id="login-password" required type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+
+        <div style="margin-top:10px" class="form-group">
+          <!-- Button -->
+          <div class="col-sm-12 controls">
+            <button id="btn-login" type="submit" class="btn btn-success"><i class="icon-hand-right"></i> &nbsp Login</button>
+            <a class="btn btn-social btn-facebook" href="/auth/facebook">
+              <i class="fa fa-facebook"></i>Login with Facebook
+            </a>
+          </div>
+        </div>
+      </form>
+      <div class="form-group">
+        <div class="col-md-12 control">
+          <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+            Don't have an account!
+            <a href="/signup">
+              Sign Up Here
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

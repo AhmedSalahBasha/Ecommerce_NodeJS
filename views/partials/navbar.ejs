@@ -1,0 +1,56 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Ecommerce</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar">
+      <form class="navbar-form navbar-left" action="/search">
+        <div class="form-group">
+          <input class="form-control" type="text" name="q" placeholder="search...">
+          <button class="btn btn-success" type="submit">Search</button>
+        </div>
+      </form>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Categories</a>
+          <ul class="dropdown-menu">
+              <% for (var i = 0; i < categories.length; i++) {%>
+            <li><a href="products/<%= categories[i]._id %>"><%= categories[i].name %></a></li>
+              <% } %>
+          </ul>
+        </li>
+
+          <% if (!user) { %>
+
+        <li><a class="dropdown-toggle" data-toggle="dropdown" href="#">Signup / Login</a>
+          <ul class="dropdown-menu">
+            <li><a href="/signup">Signup</a></li>
+            <li><a href="/login">Login</a></li>
+          </ul>
+        </li>
+
+          <% } else { %>
+
+        <li><a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.profile.name %></a>
+          <ul class="dropdown-menu">
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </li>
+          <% } %>
+        <!-- Cart -->
+          <% if (user) { %>
+        <li><a class="glyphicon glyphicon-shopping-cart" href="/cart"><span class="badge"><%= cart %></span></a></li>
+          <% } %>
+        <!--<li><a class="glyphicon glyphicon-shopping-cart" href="/cart"><span class="badge">0</span></a></li>-->
+
+      </ul>
+    </div>
+  </div>
+</nav>

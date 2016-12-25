@@ -1,0 +1,59 @@
+<% layout('layout') %>
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron" id="navbar-gap">
+  <div class="container">
+    <h1 class="text-center">Find your favourite Products</h1>
+    <p class="text-center">Search for a huge number of Products in our Ecommerce System</p>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="input-group col-md-12">
+          <input id="search" type="text" class="form-control input-lg" name="search_term" placeholder="Search ...">
+          <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div id="searchResults" class="row list-group">
+      <% for (var i = 0; i < products.length; i++) { %>
+    <div class="item  col-xs-4 col-lg-4">
+      <div class="thumbnail">
+        <a href="/product/<%= products[i]._id %>">
+          <img class="group list-group-image img-rounded" src="<%= products[i].image %>" alt="" />
+        </a>
+        <div class="caption">
+          <h4 class="group inner list-group-item-heading">
+            <a href="/product/<%= products[i]._id %>"><%= products[i].name %></a></h4>
+          <p class="group inner list-group-item-text"><%= products[i].description.substring(0, 140) %></p>
+          <div class="row">
+            <div class="col-xs-12 col-md-6">
+              <p class="lead">
+                $<%= products[i].price %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <% } %>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <ul class="pagination text-center col-md-12">
+          <li>
+              <% for (var i = 1; i <= pages; i++) {%>
+              <% if (i === 1) {%>
+          <li><a href="/"><%= i %></a></li>
+            <% } else {%>
+          <li><a href="/page/<%= i %>"><%= i %></a></li>
+            <% } %>
+            <% } %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
